@@ -1,0 +1,15 @@
+trigger:
+- master
+
+steps:
+- task: Docker@2
+  displayName: Build test container
+  inputs:
+    command: build
+    Dockerfile: Dockerfile.dev
+    buildContext: ./client
+    arguments: -t julio/react-test
+
+- script: |
+    docker run julio/react-test npm test -- --coverage
+  displayName: Run React Container
