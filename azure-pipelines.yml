@@ -31,9 +31,31 @@ steps:
   displayName: Push client image to Docker hub
   inputs:
     command: push
-    repository: docker-app
+    repository: julio/react-client
     tags: |
-      julio/react-client
-      julio/react-server
-      julio/react-nginx
-      julio/react-worker
+      client
+
+- task: Docker@2
+  displayName: Push server image to Docker hub
+  inputs:
+    command: push
+    repository: julio/react-server
+    tags: |
+      server
+
+- task: Docker@2
+  displayName: Push nginx image to Docker hub
+  inputs:
+    command: push
+    repository: julio/react-nginx
+    tags: |
+      nginx-test
+
+- task: Docker@2
+  displayName: Push worker image to Docker hub
+  inputs:
+    command: push
+    repository: julio/react-worker
+    tags: |
+      worker
+
