@@ -8,10 +8,10 @@ steps:
     command: build
     Dockerfile: ./client/Dockerfile.dev
     buildContext: ./client
-    arguments: -t julio/react-test
+    arguments: -t jisolarte/react-test
 
 - script: |
-    docker run -e CI=true julio/react-test npm test
+    docker run -e CI=true jisolarte/react-test npm test
   displayName: Run React Container
 
 
@@ -25,7 +25,7 @@ steps:
   displayName: Build and Push client image to Docker hub
   inputs:
     command: buildAndPush
-    repository: julio/react-client
+    repository: jisolarte/react-client
     buildContext: ./client
     tags: latest
 
@@ -33,7 +33,7 @@ steps:
   displayName: Build and Push server image to Docker hub
   inputs:
     command: buildAndPush
-    repository: julio/react-server
+    repository: jisolarte/react-server
     buildContext: ./server
     tags: latest
 
@@ -41,7 +41,7 @@ steps:
   displayName: Build and Push nginx image to Docker hub
   inputs:
     command: buildAndPush
-    repository: julio/react-nginx
+    repository: jisolarte/react-nginx
     buildContext: ./nginx
     tags: latest
 
@@ -49,7 +49,7 @@ steps:
   displayName: Build and Push worker image to Docker hub
   inputs:
     command: buildAndPush
-    repository: julio/react-worker
+    repository: jisolarte/react-worker
     buildContext: ./worker
     tags: latest
 
