@@ -1,6 +1,9 @@
 trigger:
 - master
 
+variables:
+    SERVICE_CONNECTION: $(SERVICE_CONNETCION)
+
 stages:
   - stage: Build
     displayName: Build
@@ -68,6 +71,6 @@ stages:
               azureSubscription: $(SERVICE_CONNECTION)
               scriptType: shell
               scriptLocation: ./deployAppService.sh
-              
+
 
 
