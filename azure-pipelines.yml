@@ -11,5 +11,5 @@ steps:
     arguments: -t julio/react-test
 
 - script: |
-    docker run julio/react-test npm test -- --coverage
+    docker run -e CI=true julio/react-test npm test
   displayName: Run React Container
