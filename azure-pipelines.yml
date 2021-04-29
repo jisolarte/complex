@@ -13,3 +13,23 @@ steps:
 - script: |
     docker run -e CI=true julio/react-test npm test
   displayName: Run React Container
+
+- script: |
+    docker build -t julio/react-client ./client
+    docker build -t julio/react-server ./server
+    docker build -t julio/react-nginx ./nginx
+    docker build -t julio/react-worker ./worker
+  displayName: Build production images
+
+- task: Docker@2
+  displayName: Login to Docker hub
+  inputs:
+    command: Login
+    containerRegistry: jisolarteDockerHub
+
+- script: |
+    docker push julio/react-client
+    docker push julio/react-server
+    docker push julio/react-nginx
+    docker push julio/react-worker
+  displayName: Pushing images to docker hub
