@@ -63,7 +63,8 @@ stages:
       displayName: Deploy app to AppService
       inputs:
         azureSubscription: $(SERVICE_CONNECTION)
-        scriptType: shell
+        scriptType: bash
+        scriptLocation: scriptPath
         scriptPath: ./deployAppService.sh
 
 
