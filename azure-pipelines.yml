@@ -27,9 +27,13 @@ steps:
     command: Login
     containerRegistry: jisolarteDockerHub
 
-- script: |
-    docker push julio/react-client
-    docker push julio/react-server
-    docker push julio/react-nginx
-    docker push julio/react-worker
-  displayName: Pushing images to docker hub
+- task: Docker@2
+  displayName: Push client image to Docker hub
+  inputs:
+    command: push
+    repository: docker-app
+    tags: |
+      julio/react-client
+      julio/react-server
+      julio/react-nginx
+      julio/react-worker
