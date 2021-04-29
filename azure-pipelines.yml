@@ -64,7 +64,7 @@ stages:
       inputs:
         azureSubscription: $(SERVICE_CONNECTION)
         scriptType: shell
-        scriptLocation: ./deployAppService.sh
+        scriptPath: ./deployAppService.sh
 
 
 
