@@ -6,7 +6,7 @@ steps:
   displayName: Build test container
   inputs:
     command: build
-    Dockerfile: Dockerfile.dev
+    Dockerfile: ./client/Dockerfile.dev
     buildContext: ./client
     arguments: -t julio/react-test
 
