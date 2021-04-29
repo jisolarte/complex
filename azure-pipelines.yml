@@ -1,9 +1,6 @@
 trigger:
 - master
 
-variables:
-    SERVICE_CONNECTION: $(SERVICE_CONNETCION)
-
 stages:
 - stage: Build
   displayName: Build
