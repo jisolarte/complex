@@ -1,60 +1,73 @@
 trigger:
 - master
 
-steps:
-- task: Docker@2
-  displayName: Build test container
-  inputs:
-    command: build
-    Dockerfile: ./client/Dockerfile.dev
-    buildContext: ./client
-    arguments: -t jisolarte/react-test
+stages:
+  - stage: Build
+    displayName: Build
+    steps:
+    - task: Docker@2
+      displayName: Build test container
+      inputs:
+        command: build
+        Dockerfile: ./client/Dockerfile.dev
+        buildContext: ./client
+        arguments: -t jisolarte/react-test
 
-- script: |
-    docker run -e CI=true jisolarte/react-test npm test
-  displayName: Run React Container
+    - script: |
+        docker run -e CI=true jisolarte/react-test npm test
+      displayName: Run React Container
 
 
-- task: Docker@2
-  displayName: Login to Docker hub
-  inputs:
-    command: Login
-    containerRegistry: jisolarteDockerHub
+    - task: Docker@2
+      displayName: Login to Docker hub
+      inputs:
+        command: Login
+        containerRegistry: jisolarteDockerHub
 
-- task: Docker@2
-  displayName: Build and Push client image to Docker hub
-  inputs:
-    command: buildAndPush
-    repository: jisolarte/react-client
-    Dockerfile: ./client/Dockerfile
-    buildContext: ./client
-    tags: latest
+    - task: Docker@2
+      displayName: Build and Push client image to Docker hub
+      inputs:
+        command: buildAndPush
+        repository: jisolarte/react-client
+        Dockerfile: ./client/Dockerfile
+        buildContext: ./client
+        tags: latest
 
-- task: Docker@2
-  displayName: Build and Push server image to Docker hub
-  inputs:
-    command: buildAndPush
-    repository: jisolarte/react-server
-    Dockerfile: ./server/Dockerfile
-    buildContext: ./server
-    tags: latest
+    - task: Docker@2
+      displayName: Build and Push server image to Docker hub
+      inputs:
+        command: buildAndPush
+        repository: jisolarte/react-server
+        Dockerfile: ./server/Dockerfile
+        buildContext: ./server
+        tags: latest
 
-- task: Docker@2
-  displayName: Build and Push nginx image to Docker hub
-  inputs:
-    command: buildAndPush
-    repository: jisolarte/react-nginx
-    Dockerfile: ./nginx/Dockerfile
-    buildContext: ./nginx
-    tags: latest
+    - task: Docker@2
+      displayName: Build and Push nginx image to Docker hub
+      inputs:
+        command: buildAndPush
+        repository: jisolarte/react-nginx
+        Dockerfile: ./nginx/Dockerfile
+        buildContext: ./nginx
+        tags: latest
 
-- task: Docker@2
-  displayName: Build and Push worker image to Docker hub
-  inputs:
-    command: buildAndPush
-    repository: jisolarte/react-worker
-    Dockerfile: ./worker/Dockerfile
-    buildContext: ./worker
-    tags: latest
+    - task: Docker@2
+      displayName: Build and Push worker image to Docker hub
+      inputs:
+        command: buildAndPush
+        repository: jisolarte/react-worker
+        Dockerfile: ./worker/Dockerfile
+        buildContext: ./worker
+        tags: latest
+  - stage: Deploy
+        displayName: Deploy Application
+        steps:
+          - task: AzureCLI@2
+            displayName: Deploy app to AppService
+            inputs:
+              azureSubscription: $(SERVICE_CONNECTION)
+              scriptType: shell
+              scriptLocation: ./deployAppService.sh
+              
 
 
